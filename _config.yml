@@ -1,7 +1,7 @@
 # Site settings
 title: jfchen Blog
 SEOTitle: 陈箭飞的博客 | jfchen Blog
-#header-img: img/home-bg.jpg
+header-img: img/home-bg.jpg
 email: jfchen_ecnu@163.com
 description: "一个程序员的博客"
 keyword: "c/c++, computer technology, programmer"
