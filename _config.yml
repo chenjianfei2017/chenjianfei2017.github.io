@@ -1,1 +1,13 @@
-theme: jekyll-theme-cayman
+# Site settings
+title: jfchen Blog
+SEOTitle: 陈箭飞的博客 | jfchen Blog
+#header-img: img/home-bg.jpg
+email: jfchen_ecnu@163.com
+description: "一个程序员的博客"
+keyword: "c/c++, computer technology, programmer"
+url: "chenjianfei2017.github.io"              # your host, for absolute URL
+baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
+
+# Publish posts or collection documents with a future date.
+future: true
+#theme: jekyll-theme-cayman
