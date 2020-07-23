@@ -1,0 +1,48 @@
+---
+layout:     post
+title:      "内存对齐"
+subtitle:   "内存对齐"
+date:       2020-07-23 15:57:00
+author:     "Jfchen"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - c/c++
+    - 技术
+---
+
+### 为什么需要内存对齐
+尽管计算机存储时，按照字节大小进行存储，但实际cpu在取数据时，是按照字长来取数据（以x86为例，即字长为32bit，4字节对齐），且数据总线从内存获取数据时，数据的起始地址必须是4的整数倍，即地址结尾为00。因此，如果不按照4字节对齐，cpu的效率会受到影响，比如要取一个int32的数据，但是它的内存起始地址为5，cpu需要取4-7单元的数据，还需要取8-11单元的数据，再通过两次取得的数据拼成需要的int32，如果起始地址为4，则只需要一半的cost，只需要获取4-7单元的数据即可（参考资料：https://blog.csdn.net/liuying_1001/article/details/50449919?utm_source=blogxgwz5）
+
+### 内存对齐规则
+- 基本类型、指针类型都是自对齐，即不需要人为干预
+- #pragma pack为最大对齐数值，对齐值不能比这个大
+- 结构体和联合体，第一个成员的offset为0，后面每个成员的offset按照自身长度与指定长度的最小值共同决定
+- 所有成员对齐之后，结构体自身也需要对齐，按照最大成员的长度与指定对齐值中较小的对齐，即较小值的整数倍对齐，这里结构体自身对齐，包括结构体的地址以及长度，两者都需要为对齐值的整数倍。
+
+### 不同的定义方式，会使得结构体大小不一致
+```
+#pragma pack(4)
+struct Test{
+  char c;
+  char cc;
+  double d;
+  int32_t i;
+};
+length is 16
+
+#pragma pack(4)
+struct Test{
+  char c;
+  double d;
+  char cc;
+  int32_t i;
+};
+lenght is 20
+```
+在定义struct、class的时候，需要合理安排成员的排列方式，合理的排列有可能减小最终程序的大小。在程序中，还可以取消当前对齐数值：
+```
+#pragma pack(push n)
+...
+#pragma pack(pop)
+```
